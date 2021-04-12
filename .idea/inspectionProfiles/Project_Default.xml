@@ -1,0 +1,79 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="66">
+            <item index="0" class="java.lang.String" itemvalue="altgraph" />
+            <item index="1" class="java.lang.String" itemvalue="0.6.1" />
+            <item index="2" class="java.lang.String" itemvalue="0.6.2" />
+            <item index="3" class="java.lang.String" itemvalue="python-dateutil" />
+            <item index="4" class="java.lang.String" itemvalue="20.1.1" />
+            <item index="5" class="java.lang.String" itemvalue="quantities" />
+            <item index="6" class="java.lang.String" itemvalue="cycler" />
+            <item index="7" class="java.lang.String" itemvalue="0.24.1" />
+            <item index="8" class="java.lang.String" itemvalue="0.2.0" />
+            <item index="9" class="java.lang.String" itemvalue="5.15.1" />
+            <item index="10" class="java.lang.String" itemvalue="47.1.0" />
+            <item index="11" class="java.lang.String" itemvalue="docopt" />
+            <item index="12" class="java.lang.String" itemvalue="certifi" />
+            <item index="13" class="java.lang.String" itemvalue="2.4.7" />
+            <item index="14" class="java.lang.String" itemvalue="PyqtTools" />
+            <item index="15" class="java.lang.String" itemvalue="0.10.0" />
+            <item index="16" class="java.lang.String" itemvalue="3.3.2" />
+            <item index="17" class="java.lang.String" itemvalue="neo" />
+            <item index="18" class="java.lang.String" itemvalue="pyparsing" />
+            <item index="19" class="java.lang.String" itemvalue="xlrd" />
+            <item index="20" class="java.lang.String" itemvalue="7.2.0" />
+            <item index="21" class="java.lang.String" itemvalue="0.12.4" />
+            <item index="22" class="java.lang.String" itemvalue="0.14.0" />
+            <item index="23" class="java.lang.String" itemvalue="2019.4.18" />
+            <item index="24" class="java.lang.String" itemvalue="kiwisolver" />
+            <item index="25" class="java.lang.String" itemvalue="pydub" />
+            <item index="26" class="java.lang.String" itemvalue="0.18.2" />
+            <item index="27" class="java.lang.String" itemvalue="pefile" />
+            <item index="28" class="java.lang.String" itemvalue="pyinstaller-hooks-contrib" />
+            <item index="29" class="java.lang.String" itemvalue="0.17" />
+            <item index="30" class="java.lang.String" itemvalue="pyqtgraph" />
+            <item index="31" class="java.lang.String" itemvalue="1.5.2" />
+            <item index="32" class="java.lang.String" itemvalue="1.19.2" />
+            <item index="33" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="34" class="java.lang.String" itemvalue="2020.6.20" />
+            <item index="35" class="java.lang.String" itemvalue="1.15.0" />
+            <item index="36" class="java.lang.String" itemvalue="0.7.2" />
+            <item index="37" class="java.lang.String" itemvalue="DAWG-Python" />
+            <item index="38" class="java.lang.String" itemvalue="numpy" />
+            <item index="39" class="java.lang.String" itemvalue="jdcal" />
+            <item index="40" class="java.lang.String" itemvalue="pywin32-ctypes" />
+            <item index="41" class="java.lang.String" itemvalue="3.0.5" />
+            <item index="42" class="java.lang.String" itemvalue="12.8.1" />
+            <item index="43" class="java.lang.String" itemvalue="PyDAQmx" />
+            <item index="44" class="java.lang.String" itemvalue="pyinstaller" />
+            <item index="45" class="java.lang.String" itemvalue="scipy" />
+            <item index="46" class="java.lang.String" itemvalue="7.1.2" />
+            <item index="47" class="java.lang.String" itemvalue="pymorphy2-dicts" />
+            <item index="48" class="java.lang.String" itemvalue="six" />
+            <item index="49" class="java.lang.String" itemvalue="2020.10" />
+            <item index="50" class="java.lang.String" itemvalue="2.4.393442.3710985" />
+            <item index="51" class="java.lang.String" itemvalue="0.11.0" />
+            <item index="52" class="java.lang.String" itemvalue="2.8.1" />
+            <item index="53" class="java.lang.String" itemvalue="et-xmlfile" />
+            <item index="54" class="java.lang.String" itemvalue="1.4.1" />
+            <item index="55" class="java.lang.String" itemvalue="pymorphy2" />
+            <item index="56" class="java.lang.String" itemvalue="0.1" />
+            <item index="57" class="java.lang.String" itemvalue="1.4.3" />
+            <item index="58" class="java.lang.String" itemvalue="future" />
+            <item index="59" class="java.lang.String" itemvalue="4.0" />
+            <item index="60" class="java.lang.String" itemvalue="5.15.1.1.7.3" />
+            <item index="61" class="java.lang.String" itemvalue="0.8" />
+            <item index="62" class="java.lang.String" itemvalue="1.0.1" />
+            <item index="63" class="java.lang.String" itemvalue="Pillow" />
+            <item index="64" class="java.lang.String" itemvalue="1.2.0" />
+            <item index="65" class="java.lang.String" itemvalue="openpyxl" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
