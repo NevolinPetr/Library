@@ -2,7 +2,7 @@ from data import db_session
 from data.books import Book
 from data.genres import Genre
 from data.users import User
-from flask import Flask, render_template, redirect
+from flask import abort, Flask, redirect, render_template, request
 from flask_login import current_user, LoginManager, login_required, login_user, logout_user
 from forms.book import BookForm
 from forms.login import LoginForm
@@ -91,7 +91,7 @@ def add_book():
             db_sess.add(new_genre)
             db_sess.commit()
             genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
-        book.genre = genre
+        book.genre_id = genre.id
         book.created_date = form.created_date.data
         book.annotation = form.annotation.data
         book.img_file = form.img_file.data.filename
@@ -103,6 +103,51 @@ def add_book():
         db_sess.commit()
         return redirect('/')
     return render_template('book.html', title='Добавление книги', form=form)
+
+
+@app.route('/book/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_book(id):
+    form = BookForm()
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        book = db_sess.query(Book).filter(Book.id == id).first()
+        if book:
+            form.title.data = book.title
+            form.author.data = book.author
+            genre = db_sess.query(Genre).filter(Genre.id == book.genre_id).first()
+            form.genre = genre.title
+            form.created_date = book.created_date
+            form.annotation = book.annotation
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        book = db_sess.query(Book).filter(Book.id == id).first()
+        if book:
+            book.title = form.title.data
+            book.author = form.author.data
+            genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
+            if not genre:
+                new_genre = Genre(title=form.genre.data)
+                db_sess.add(new_genre)
+                db_sess.commit()
+                genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
+            book.genre_id = genre.id
+            book.created_date = form.created_date.data
+            book.annotation = form.annotation.data
+            book.img_file = form.img_file.data.filename
+            form.img_file.data.save(f'static/img/{form.img_file.data.filename}')
+            book.text_file = form.text_file.data.filename
+            form.text_file.data.save(f'static/text/{form.text_file.data.filename}')
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('book.html',
+                           title='Редактирование книги',
+                           form=form
+                           )
 
 
 def main():

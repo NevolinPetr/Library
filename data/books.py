@@ -11,7 +11,7 @@ class Book(SqlAlchemyBase):
     author = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     annotation = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     genre_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("genres.id"))
-    created_date = sqlalchemy.Column(sqlalchemy.Date, nullable=True)
+    created_date = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     img_file = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     text_file = sqlalchemy.Column(sqlalchemy.String)
 
