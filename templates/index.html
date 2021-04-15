@@ -9,11 +9,17 @@
 <div class="col-md6 border rounded">
     <img src={{"/static/img/"+item.img_file}} align="left" width="8%" height="8%" hspace="10" vspace="10">
     <h2>{{item.title}}</h2>
-    <div>
-        Автор - {{item.author}}<br>
-        Дата написания - {{item.created_date}}<br>
-        Жанр - {{item.genre.title}}
-    </div>
+    <table cellpadding="5">
+        <tr>
+            <td>Автор</td><td>{{item.author}}</td>
+        </tr>
+        <tr>
+            <td>Дата написания</td><td>{{item.created_date}}</td>
+        </tr>
+        <tr>
+            <td>Жанр</td><td>{{item.genre.title}}</td>
+        </tr>
+    </table>
     <div>
         {{item.annotation}}
     </div>

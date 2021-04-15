@@ -1,8 +1,10 @@
 from data import db_session
 from data.books import Book
+from data.genres import Genre
 from data.users import User
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import current_user, LoginManager, login_required, login_user, logout_user
+from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
 
@@ -72,6 +74,35 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route('/book',  methods=['GET', 'POST'])
+@login_required
+def add_book():
+    form = BookForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        book = Book()
+        book.title = form.title.data
+        book.author = form.author.data
+        genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
+        if not genre:
+            new_genre = Genre(title=form.genre.data)
+            db_sess.add(new_genre)
+            db_sess.commit()
+            genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
+        book.genre = genre
+        book.created_date = form.created_date.data
+        book.annotation = form.annotation.data
+        book.img_file = form.img_file.data.filename
+        form.img_file.data.save(f'static/img/{form.img_file.data.filename}')
+        book.text_file = form.text_file.data.filename
+        form.text_file.data.save(f'static/text/{form.text_file.data.filename}')
+        genre.book.append(book)
+        db_sess.merge(genre)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('book.html', title='Добавление книги', form=form)
 
 
 def main():
