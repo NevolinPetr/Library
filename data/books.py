@@ -14,4 +14,5 @@ class Book(SqlAlchemyBase):
     created_date = sqlalchemy.Column(sqlalchemy.Date, nullable=True)
     img_file = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     text_file = sqlalchemy.Column(sqlalchemy.String)
+
     genre = orm.relation('Genre')
