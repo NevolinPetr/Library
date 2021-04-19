@@ -23,7 +23,13 @@
     <div>
         {{item.annotation}}
     </div>
-    {% if current_user.is_authenticated and current_user.id == 1 %}
+    {% if current_user.is_authenticated %}
+    <div>
+        <a href="/book_download/{{ item.id }}" class="btn btn-warning">
+            Скачать
+        </a>
+    </div>
+    <br>
     <div>
         <a href="/book/{{ item.id }}" class="btn btn-warning">
             Изменить

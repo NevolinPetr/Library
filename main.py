@@ -2,11 +2,12 @@ from data import db_session
 from data.books import Book
 from data.genres import Genre
 from data.users import User
-from flask import abort, Flask, redirect, render_template, request
-from flask_login import current_user, LoginManager, login_required, login_user, logout_user
+from flask import abort, Flask, redirect, render_template, request, send_from_directory
+from flask_login import LoginManager, login_required, login_user, logout_user
 from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
+from werkzeug.datastructures import FileStorage
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -26,7 +27,7 @@ def load_user(user_id):
 def index():
     db_sess = db_session.create_session()
     books = db_sess.query(Book)
-    return render_template("index.html", books=books)
+    return render_template("index.html", title="Главная страница", books=books)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -91,10 +92,12 @@ def add_book():
             db_sess.add(new_genre)
             db_sess.commit()
             genre = db_sess.query(Genre).filter(Genre.title == form.genre.data).first()
-        book.genre_id = genre.id
+        book.genre = genre
         book.created_date = form.created_date.data
         book.annotation = form.annotation.data
         book.img_file = form.img_file.data.filename
+        print(form.img_file.data)
+        print(type(form.img_file.data))
         form.img_file.data.save(f'static/img/{form.img_file.data.filename}')
         book.text_file = form.text_file.data.filename
         form.text_file.data.save(f'static/text/{form.text_file.data.filename}')
@@ -116,9 +119,11 @@ def edit_book(id):
             form.title.data = book.title
             form.author.data = book.author
             genre = db_sess.query(Genre).filter(Genre.id == book.genre_id).first()
-            form.genre = genre.title
-            form.created_date = book.created_date
-            form.annotation = book.annotation
+            form.genre.data = genre.title
+            form.created_date.data = book.created_date
+            form.annotation.data = book.annotation
+            form.img_file.data = FileStorage(filename=f'static/img/{book.img_file}')
+            form.text_file.data = FileStorage(filename=f'static/text/{book.text_file}')
         else:
             abort(404)
     if form.validate_on_submit():
@@ -148,6 +153,27 @@ def edit_book(id):
                            title='Редактирование книги',
                            form=form
                            )
+
+
+@app.route('/book_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def book_delete(id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).filter(Book.id == id,).first()
+    if book:
+        db_sess.delete(book)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
+@app.route('/book_download/<int:id>')
+def book_download(id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).filter(Book.id == id).first()
+    filename = f'static/text/{book.text_file}'
+    send_from_directory('C:/Users/GS-8/PycharmProjects/nevolin', filename)
 
 
 def main():
