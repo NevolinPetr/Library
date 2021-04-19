@@ -116,9 +116,9 @@ def edit_book(id):
             form.title.data = book.title
             form.author.data = book.author
             genre = db_sess.query(Genre).filter(Genre.id == book.genre_id).first()
-            form.genre = genre.title
-            form.created_date = book.created_date
-            form.annotation = book.annotation
+            form.genre.data = genre.title
+            form.created_date.data = book.created_date
+            form.annotation.data = book.annotation
         else:
             abort(404)
     if form.validate_on_submit():
@@ -148,6 +148,19 @@ def edit_book(id):
                            title='Редактирование книги',
                            form=form
                            )
+
+
+@app.route('/book_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def book_delete(id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).filter(Book.id == id).first()
+    if book:
+        db_sess.delete(book)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 def main():

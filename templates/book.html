@@ -51,7 +51,7 @@
     </p>
     <p>
         {{ form.img_file.label }}<br>
-        {{ form.img_file }}
+        {{ form.img_file(class="form-control") }}
         {% for error in form.img_file.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
@@ -60,7 +60,7 @@
     </p>
     <p>
         {{ form.text_file.label }}<br>
-        {{ form.text_file }}
+        {{ form.text_file(class="form-control") }}
         {% for error in form.text_file.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
