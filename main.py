@@ -173,7 +173,7 @@ def book_download(id):
     db_sess = db_session.create_session()
     book = db_sess.query(Book).filter(Book.id == id).first()
     filename = f'static/text/{book.text_file}'
-    send_from_directory('C:/Users/GS-8/PycharmProjects/nevolin', filename)
+    send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 def main():
