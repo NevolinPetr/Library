@@ -170,10 +170,13 @@ def book_delete(id):
 
 @app.route('/book_download/<int:id>')
 def book_download(id):
-    db_sess = db_session.create_session()
-    book = db_sess.query(Book).filter(Book.id == id).first()
-    filename = f'static/text/{book.text_file}'
-    send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    try:
+        db_sess = db_session.create_session()
+        book = db_sess.query(Book).filter(Book.id == id).first()
+        filename = f'static/text/{book.text_file}'
+        return send_from_directory(directory='', filename=filename, as_attachment=True, cache_timeout=0)
+    except FileNotFoundError:
+        abort(404)
 
 
 def main():
