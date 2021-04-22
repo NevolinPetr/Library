@@ -11,5 +11,5 @@ class BookForm(FlaskForm):
     created_date = IntegerField('Год создания', validators=[DataRequired()])
     annotation = TextAreaField('Аннотация', validators=[DataRequired()])
     img_file = FileField('Обложка', validators=[DataRequired()])
-    text_file = FileField('PDF файд', validators=[DataRequired()])
+    text_file = FileField('Текстовый файл', validators=[DataRequired()])
     submit = SubmitField('Применить')

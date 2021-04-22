@@ -3,6 +3,7 @@ from .books import Book
 from flask import jsonify, request
 
 import flask
+import shutil
 
 blueprint = flask.Blueprint(
     'book_api',
@@ -39,7 +40,7 @@ def get_one_book(book_id):
 
 
 @blueprint.route('/api/book', methods=['POST'])
-def create_news():
+def create_book():
     if not request.json:
         return jsonify({'error': 'Empty request'})
     elif not all(key in request.json for key in
@@ -56,9 +57,7 @@ def create_news():
         img_file=request.json['img_file'],
         text_file=request.json['text_file']
     )
-    db_sess.add(book)
-    db_sess.commit()
-    return jsonify({'success': 'OK'})
 
+    return jsonify({'success': 'OK'})
 
 

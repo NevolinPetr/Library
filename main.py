@@ -2,13 +2,14 @@ from data import book_api, db_session
 from data.books import Book
 from data.genres import Genre
 from data.users import User
-from flask import abort, Flask, make_response, redirect, render_template, request, send_from_directory
+from flask import abort, Flask, jsonify, make_response, redirect, render_template, request, send_from_directory
 from flask_login import LoginManager, login_required, login_user, logout_user
 from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
 from werkzeug.datastructures import FileStorage
 
+USER = 'GS-8'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
