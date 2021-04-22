@@ -1,8 +1,8 @@
-from data import db_session
+from data import book_api, db_session
 from data.books import Book
 from data.genres import Genre
 from data.users import User
-from flask import abort, Flask, redirect, render_template, request, send_from_directory
+from flask import abort, Flask, make_response, redirect, render_template, request, send_from_directory
 from flask_login import LoginManager, login_required, login_user, logout_user
 from forms.book import BookForm
 from forms.login import LoginForm
@@ -11,15 +11,25 @@ from werkzeug.datastructures import FileStorage
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-db_session.global_init("db/library.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+def main():
+    db_session.global_init("db/library.db")
+    app.register_blueprint(book_api.blueprint)
+    app.run()
 
 
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.route('/')
@@ -179,10 +189,5 @@ def book_download(id):
         abort(404)
 
 
-def main():
-    db_session.global_init("db/library.db")
-    app.run()
-
-
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    main()
