@@ -1,14 +1,25 @@
-from requests import get, post
+from requests import delete, get, post
 
 print(get('http://localhost:5000/api/book/1').json())
 print('')
 print(post('http://localhost:5000/api/book',
            json={'title': 'Тёмные начала',
-                 'author': '',
-                 'annotation': '«Северное сияние» — первая книга трилогии «Тёмные начала». Поиски пропавшего друга ',
+                 'author': 'Филип Пулман',
+                 'annotation': 'Двенадцатилетняя сирота Лира Белаква вместе со своим деймоном '
+                               'Пантелеймоном живет в Оксфорде. Ее дядя – могущественный лорд Азриэл '
+                               '– приезжает в колледж для того, чтобы организовать экспедицию на '
+                               'Север. Цель его поездки – выяснить происхождение загадочной «пыли», '
+                               'которую можно увидеть на фотографиях, снятых в этих местах. Вскоре '
+                               'после отъезда дяди таинственные «жрецы» похищают друга Лиры, '
+                               'мальчика-слугу. Ходят жуткие легенды о том, что они забирают детей на '
+                               'далекий Север. Девочка отправляется на поиски своего друга, и в этом '
+                               'путешествии ей открываются тайны о собственной семье и о судьбе, '
+                               'которая ждет ее на морозных землях…',
                  'genre_id': 1,
                  'created_date': 1995,
-                 'img_file': 'C:/Users/GS-8/Downloads/his_dark_materials.img',
-                 'text_file': 'C:/Users/GS-8/Downloads/his_dark_materials.fb2'
+                 'img_file': 'C:/Users/petrn/Downloads/his_dark_materials.jpg',
+                 'text_file': 'C:/Users/petrn/Downloads/his_dark_materials.fb2'
                  }
            ).json())
+
+print(delete('http://localhost:5000/api/book/3').json())

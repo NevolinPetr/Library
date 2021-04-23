@@ -54,10 +54,44 @@ def create_book():
         annotation=request.json['annotation'],
         genre_id=request.json['genre_id'],
         created_date=request.json['created_date'],
-        img_file=request.json['img_file'],
-        text_file=request.json['text_file']
+        img_file=request.json['img_file'].split('/')[-1],
+        text_file=request.json['text_file'].split('/')[-1]
     )
+    shutil.copy(request.json['img_file'], f'static/img/{request.json["img_file"].split("/")[-1]}')
+    shutil.copy(request.json['text_file'], f'static/text/{request.json["text_file"].split("/")[-1]}')
+    db_sess.add(book)
+    db_sess.commit()
+    return jsonify({'success': 'ok'})
 
+
+@blueprint.route('/api/book/<int:book_id>', methods=['DELETE'])
+def delete_book(book_id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).filter(Book.id == book_id).first()
+    if not book:
+        return jsonify({'error': 'Not found'})
+    db_sess.delete(book)
+    db_sess.commit()
     return jsonify({'success': 'OK'})
 
 
+@blueprint.route('/api/book/<int:book_id>', methods=['PUT'])
+def edit_book(book_id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).get(book_id)
+    if not book:
+        return jsonify({'error': 'Not found'})
+    elif not request.json:
+        return jsonify({'error': 'Empty request'})
+    book.title = request.json['title'] if 'title' in request.json else book.title
+    book.author = request.json['author'] if 'author' in request.json else book.author
+    book.annotation = request.json['annotation'] if 'annotation' in request.json else book.annotation
+    book.genre_id = request.json['genre_id'] if 'genre_id' in request.json else book.genre_id
+    book.created_date = (request.json['created_date'] if 'created_date' in request.json
+                         else book.created_date)
+    book.img_file = (request.json['img_file'].split('/')[-1] if 'img_file' in request.json
+                     else book.img_file)
+    book.text_file = (request.json['text_file'].split('/')[-1] if 'text_file' in request.json
+                      else book.text_file)
+    db_sess.commit()
+    return jsonify({'success': 'OK'})

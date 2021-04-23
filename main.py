@@ -133,8 +133,6 @@ def edit_book(id):
             form.genre.data = genre.title
             form.created_date.data = book.created_date
             form.annotation.data = book.annotation
-            form.img_file.data = FileStorage(filename=f'static/img/{book.img_file}')
-            form.text_file.data = FileStorage(filename=f'static/text/{book.text_file}')
         else:
             abort(404)
     if form.validate_on_submit():
