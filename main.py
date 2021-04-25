@@ -10,6 +10,8 @@ from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
 
+import os
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 api = Api(app)
@@ -22,7 +24,8 @@ def main():
     app.register_blueprint(book_api.blueprint)
     app.register_blueprint(genre_api.blueprint)
     app.register_blueprint(user_api.blueprint)
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 @login_manager.user_loader
