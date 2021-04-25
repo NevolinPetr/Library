@@ -1,17 +1,18 @@
-from data import book_api, db_session
+from data import book_api, db_session, genre_api, user_api
 from data.books import Book
 from data.genres import Genre
 from data.users import User
-from flask import abort, Flask, jsonify, make_response, redirect, render_template, request, send_from_directory
+from flask import abort, Flask, jsonify, make_response, redirect, render_template, request
+from flask import send_from_directory
 from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_restful import abort, Api
 from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
-from werkzeug.datastructures import FileStorage
 
-USER = 'GS-8'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -19,6 +20,8 @@ login_manager.init_app(app)
 def main():
     db_session.global_init("db/library.db")
     app.register_blueprint(book_api.blueprint)
+    app.register_blueprint(genre_api.blueprint)
+    app.register_blueprint(user_api.blueprint)
     app.run()
 
 
@@ -119,13 +122,13 @@ def add_book():
     return render_template('book.html', title='Добавление книги', form=form)
 
 
-@app.route('/book/<int:id>', methods=['GET', 'POST'])
+@app.route('/book/<int:book_id>', methods=['GET', 'POST'])
 @login_required
-def edit_book(id):
+def edit_book(book_id):
     form = BookForm()
     if request.method == "GET":
         db_sess = db_session.create_session()
-        book = db_sess.query(Book).filter(Book.id == id).first()
+        book = db_sess.query(Book).filter(Book.id == book_id).first()
         if book:
             form.title.data = book.title
             form.author.data = book.author
@@ -137,7 +140,7 @@ def edit_book(id):
             abort(404)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        book = db_sess.query(Book).filter(Book.id == id).first()
+        book = db_sess.query(Book).filter(Book.id == book_id).first()
         if book:
             book.title = form.title.data
             book.author = form.author.data
@@ -164,11 +167,11 @@ def edit_book(id):
                            )
 
 
-@app.route('/book_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/book_delete/<int:book_id>', methods=['GET', 'POST'])
 @login_required
-def book_delete(id):
+def book_delete(book_id):
     db_sess = db_session.create_session()
-    book = db_sess.query(Book).filter(Book.id == id,).first()
+    book = db_sess.query(Book).filter(Book.id == book_id).first()
     if book:
         db_sess.delete(book)
         db_sess.commit()
@@ -177,11 +180,11 @@ def book_delete(id):
     return redirect('/')
 
 
-@app.route('/book_download/<int:id>')
-def book_download(id):
+@app.route('/book_download/<int:book_id>')
+def book_download(book_id):
     try:
         db_sess = db_session.create_session()
-        book = db_sess.query(Book).filter(Book.id == id).first()
+        book = db_sess.query(Book).filter(Book.id == book_id).first()
         filename = f'static/text/{book.text_file}'
         return send_from_directory(directory='', filename=filename, as_attachment=True, cache_timeout=0)
     except FileNotFoundError:

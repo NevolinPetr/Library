@@ -1,25 +1,20 @@
+from data import db_session
+from data.books import Book
+from flask import send_from_directory
 from requests import delete, get, post
+import os
+
+os.chdir('C:/Users')
+listdir = os.listdir()
+uselessdir = ['All Users', 'Default', 'Default User', 'desktop.ini', 'Public', 'Все пользователи']
+for elem in uselessdir:
+    del listdir[listdir.index(elem)]
+os.chdir(f'C:/Users/{listdir[0]}/Downloads')
+print(os.getcwd())
+print(os.listdir())
+
+
 
 print(get('http://localhost:5000/api/book/1').json())
-print('')
-print(post('http://localhost:5000/api/book',
-           json={'title': 'Тёмные начала',
-                 'author': 'Филип Пулман',
-                 'annotation': 'Двенадцатилетняя сирота Лира Белаква вместе со своим деймоном '
-                               'Пантелеймоном живет в Оксфорде. Ее дядя – могущественный лорд Азриэл '
-                               '– приезжает в колледж для того, чтобы организовать экспедицию на '
-                               'Север. Цель его поездки – выяснить происхождение загадочной «пыли», '
-                               'которую можно увидеть на фотографиях, снятых в этих местах. Вскоре '
-                               'после отъезда дяди таинственные «жрецы» похищают друга Лиры, '
-                               'мальчика-слугу. Ходят жуткие легенды о том, что они забирают детей на '
-                               'далекий Север. Девочка отправляется на поиски своего друга, и в этом '
-                               'путешествии ей открываются тайны о собственной семье и о судьбе, '
-                               'которая ждет ее на морозных землях…',
-                 'genre_id': 1,
-                 'created_date': 1995,
-                 'img_file': 'C:/Users/petrn/Downloads/his_dark_materials.jpg',
-                 'text_file': 'C:/Users/petrn/Downloads/his_dark_materials.fb2'
-                 }
-           ).json())
 
-print(delete('http://localhost:5000/api/book/3').json())
+

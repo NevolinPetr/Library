@@ -1,8 +1,9 @@
 from . import db_session
 from .books import Book
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory
 
 import flask
+import os
 import shutil
 
 blueprint = flask.Blueprint(
@@ -10,6 +11,13 @@ blueprint = flask.Blueprint(
     __name__,
     template_folder='templates'
 )
+
+
+def book_download(book_id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Book).filter(Book.id == book_id).first()
+    filename = f'static/text/{book.text_file}'
+    return send_from_directory(directory='', filename=filename, as_attachment=True, cache_timeout=0)
 
 
 @blueprint.route('/api/book')
@@ -31,10 +39,23 @@ def get_one_book(book_id):
     book = db_sess.query(Book).filter(Book.id == book_id).first()
     if not book:
         return jsonify({'error': 'Not found'})
+    book_download(book.id)
+    file = open(f'static/text/{book.text_file}', 'rb')
+    data = file.read()
+    file.close()
+    os.chdir('C:/Users')
+    listdir = os.listdir()
+    useless_dir = ['All Users', 'Default', 'Default User', 'desktop.ini', 'Public', 'Все пользователи']
+    for elem in useless_dir:
+        del listdir[listdir.index(elem)]
+    filename = f'C:/Users/{listdir[0]}/Downloads/{book.text_file}'
+    file = open(filename, 'wb')
+    file.write(data)
+    file.close()
     return jsonify(
         {
             'book': book.to_dict(only=(
-                'title', 'author', 'annotation', 'genre.title', 'created_date'))
+                'title', 'author', 'annotation', 'genre_id', 'created_date', 'img_file', 'text_file'))
         }
     )
 
