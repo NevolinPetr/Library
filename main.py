@@ -5,18 +5,18 @@ from data.users import User
 from flask import abort, Flask, jsonify, make_response, redirect, render_template, request
 from flask import send_from_directory
 from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_ngrok import run_with_ngrok
 from flask_restful import abort, Api
 from forms.book import BookForm
 from forms.login import LoginForm
 from forms.user import RegisterForm
-
-import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+run_with_ngrok(app)
 
 
 def main():
@@ -24,8 +24,7 @@ def main():
     app.register_blueprint(book_api.blueprint)
     app.register_blueprint(genre_api.blueprint)
     app.register_blueprint(user_api.blueprint)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run()
 
 
 @login_manager.user_loader
